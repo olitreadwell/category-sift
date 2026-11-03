@@ -5,7 +5,7 @@
     module.exports = api;
   }
 
-  /** @type {any} */ (root).TradeMeFilterCore = api;
+  /** @type {any} */ (root).CategorySiftCore = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function createFilterCore() {
   /** @typedef {{ categoryPath: string, topLevelKey: string, segments: string[] }} ListingCategory */
   /** @typedef {{ key: string, label: string, count: number, depth: number, parentKey: string | null }} CategoryNode */

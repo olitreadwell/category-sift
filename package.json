@@ -1,8 +1,8 @@
 {
-  "name": "trademe-category-filter",
-  "version": "0.1.0",
+  "name": "category-sift",
+  "version": "0.1.1",
   "private": true,
-  "description": "Chrome extension prototype for hiding Trade Me listing categories.",
+  "description": "Chrome extension that filters listing categories on Trade Me search pages.",
   "engines": {
     "node": ">=20"
   },

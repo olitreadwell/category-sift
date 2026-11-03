@@ -1,4 +1,4 @@
-(function startTradeMeCategoryFilter() {
+(function startCategorySift() {
   /** @typedef {{ categoryPath: string, topLevelKey: string, segments: string[] }} ListingCategory */
   /** @typedef {{ key: string, label: string, count: number, depth: number, parentKey: string | null }} CategoryNode */
   /** @typedef {"selected" | "covered" | "partial" | "none"} NodeSelectionState */
@@ -6,17 +6,18 @@
   /** @typedef {{ parseListingCategory: (href: string) => ListingCategory | null, buildCategoryTree: (hrefs: string[]) => CategoryNode[], isExcludedPath: (categoryPath: string, excludedKeys: Set<string>) => boolean, getNodeSelectionState: (nodeKey: string, excludedKeys: Set<string>) => NodeSelectionState, normalizeFilterScope: (href: string) => string }} FilterCore */
 
   const loadedCore = /** @type {FilterCore | undefined} */ (
-    /** @type {any} */ (globalThis).TradeMeFilterCore
+    /** @type {any} */ (globalThis).CategorySiftCore
   );
 
   if (!loadedCore) {
-    console.error("Trade Me Category Filter: category core did not load");
+    console.error("Category Sift: category core did not load");
     return;
   }
 
   const core = loadedCore;
 
-  const HOST_ID = "trademe-category-filter";
+  const HOST_ID = "category-sift";
+  // Keep the old prefix so saved filters survive the product rename.
   const STORAGE_PREFIX = "trademe-category-filter:";
   const CARD_SELECTOR = "tm-marketplace-search-card, tm-motors-basic-search-card";
   const AD_SELECTOR = ".ad-card, tm-display-ad-wrapper, tm-fuse-display-ad";
@@ -127,9 +128,9 @@
         .category-name { overflow-wrap: anywhere; }
         .category-count { color: #76716d; font-variant-numeric: tabular-nums; }
       </style>
-      <aside class="panel" aria-label="Trade Me category filter">
+      <aside class="panel" aria-label="Category Sift">
         <div class="header">
-          <h2 class="title">Trade Me filter</h2>
+          <h2 class="title">Category Sift</h2>
           <button class="icon-button" type="button" data-action="collapse" aria-expanded="true">Minimise</button>
         </div>
         <div class="body" data-role="body">
@@ -175,7 +176,7 @@
         const stored = await chrome.storage.local.get(key);
         return toExclusionSet(stored[key]);
       } catch (error) {
-        console.error("Trade Me Category Filter: could not read saved exclusions", error);
+        console.error("Category Sift: could not read saved exclusions", error);
         return new Set();
       }
     }
@@ -521,7 +522,7 @@
 
   /** @param {unknown} error */
   function reportError(error) {
-    console.error("Trade Me Category Filter: refresh failed", error);
+    console.error("Category Sift: refresh failed", error);
   }
 
   function expandAncestorsOfSelections() {

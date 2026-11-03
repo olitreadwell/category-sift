@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Trade Me Category Filter",
-  "version": "0.1.0",
-  "description": "Hide selected listing categories on Trade Me search results.",
+  "name": "Category Sift",
+  "version": "0.1.1",
+  "description": "Filter listing categories on Trade Me search pages.",
   "permissions": ["storage"],
   "host_permissions": ["https://www.trademe.co.nz/*"],
   "content_scripts": [

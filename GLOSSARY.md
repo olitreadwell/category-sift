@@ -1,6 +1,6 @@
-# Trade Me Category Filter
+# Category Sift
 
-A browser extension for removing unwanted listing categories from Trade Me result lists.
+A browser extension for filtering listing categories on Trade Me search pages.
 
 ## Language
 

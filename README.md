@@ -1,14 +1,14 @@
-# Trade Me Category Filter
+# Category Sift
 
-Chrome extension that hides selected Trade Me listing categories on search pages.
+Chrome extension that filters listing categories on Trade Me search pages.
 
-Not affiliated with Trade Me. Provided as-is, with no warranty.
+Trade Me is a trademark of its owner. This project is not affiliated with or endorsed by Trade Me. Provided as-is, with no warranty.
 
 ## Load it
 
 This extension is not on the Chrome Web Store. Install it from source:
 
-1. Download the latest release ZIP from https://github.com/olitreadwell/trademe-category-filter/releases/latest, or clone the repository.
+1. Download the latest release ZIP from https://github.com/olitreadwell/category-sift/releases/latest, or clone the repository.
 2. Unzip the download if needed.
 3. Open `chrome://extensions`.
 4. Turn on Developer mode.

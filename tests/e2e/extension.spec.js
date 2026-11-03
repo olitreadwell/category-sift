@@ -25,7 +25,7 @@ test("hides category subtrees and remembers them for the same search", async () 
 
     await page.goto("https://www.trademe.co.nz/a/marketplace/search?dollar_reserve_only=true");
 
-    const panel = page.locator("#trademe-category-filter .panel");
+    const panel = page.locator("#category-sift .panel");
     await expect(panel).toBeVisible();
 
     const gamingTradingCards = panel.locator(
