@@ -4,7 +4,6 @@
   "version": "0.1.1",
   "description": "Filter listing categories on Trade Me search pages.",
   "permissions": ["storage"],
-  "host_permissions": ["https://www.trademe.co.nz/*"],
   "content_scripts": [
     {
       "matches": ["https://www.trademe.co.nz/a/*"],
