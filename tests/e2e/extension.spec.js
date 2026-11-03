@@ -51,6 +51,54 @@ test("hides category subtrees and remembers them for the same search", async () 
     await books.uncheck();
     await expect(page.locator('[data-listing="books-1"]')).toBeVisible();
 
+    const panelMutations = await page.evaluate(async () => {
+      const root = document.querySelector("#category-sift")?.shadowRoot;
+      const list = root?.querySelector('[data-role="category-list"]');
+      const count = root?.querySelector('[data-role="hidden-count"]');
+      let listMutations = 0;
+      let countMutations = 0;
+
+      if (!(list instanceof Element) || !(count instanceof Element)) {
+        return { listMutations, countMutations };
+      }
+
+      const listObserver = new MutationObserver((records) => {
+        listMutations += records.length;
+      });
+      const countObserver = new MutationObserver((records) => {
+        countMutations += records.length;
+      });
+      listObserver.observe(list, { childList: true, subtree: true });
+      countObserver.observe(count, { childList: true, subtree: true });
+
+      const noise = document.createElement("div");
+      noise.textContent = "unrelated mutation";
+      document.body.append(noise);
+      await new Promise((resolve) => setTimeout(resolve, 250));
+
+      listObserver.disconnect();
+      countObserver.disconnect();
+      return { listMutations, countMutations };
+    });
+
+    expect(panelMutations).toEqual({ listMutations: 0, countMutations: 0 });
+
+    await books.focus();
+    await books.press("Space");
+    await expect(books).toBeChecked();
+    await expect(books).toBeFocused();
+    await books.press("Space");
+    await expect(books).not.toBeChecked();
+    await expect(books).toBeFocused();
+
+    await gamingToggle.focus();
+    await page.keyboard.press("Enter");
+    await expect(gamingToggle).toBeFocused();
+    await expect(gamingTradingCards).toBeVisible();
+    await page.keyboard.press("Enter");
+    await expect(gamingToggle).toBeFocused();
+    await expect(gamingTradingCards).toBeHidden();
+
     await gamingToggle.click();
     await expect(gamingTradingCards).toBeVisible();
     await expect(gamingToggle).toHaveAttribute("aria-expanded", "true");
@@ -138,6 +186,9 @@ test("hides category subtrees and remembers them for the same search", async () 
     await expect(mensJewellery).toBeHidden();
     await expect(jewelleryToggle).toHaveAttribute("aria-expanded", "false");
     await expect(page.locator('[data-listing="books-1"]')).toBeVisible();
+
+    await page.evaluate(() => document.querySelector("#results")?.replaceChildren());
+    await expect(panel).toBeHidden();
   } finally {
     await context.close();
   }
