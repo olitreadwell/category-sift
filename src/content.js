@@ -24,7 +24,7 @@
   const SPONSORED_SELECTOR = '[class*="sponsored"], [data-testid*="sponsored"]';
   const originalDisplays = new WeakMap();
 
-  /** @type {{ scope: string, scopeVersion: number, excluded: Set<string>, expanded: Set<string>, categoryNodes: CategoryNode[], listings: ListingRecord[], reveal: boolean, scanTimer: number, collapsed: boolean, host: HTMLElement | null, shadow: ShadowRoot | null }} */
+  /** @type {{ scope: string, scopeVersion: number, excluded: Set<string>, expanded: Set<string>, categoryNodes: CategoryNode[], listings: ListingRecord[], reveal: boolean, scanTimer: number, collapsed: boolean, panelSignature: string, host: HTMLElement | null, shadow: ShadowRoot | null }} */
   const state = {
     scope: "",
     scopeVersion: 0,
@@ -35,6 +35,7 @@
     reveal: false,
     scanTimer: 0,
     collapsed: false,
+    panelSignature: "",
     host: /** @type {HTMLElement | null} */ (null),
     shadow: /** @type {ShadowRoot | null} */ (null),
   };
@@ -52,6 +53,7 @@
     shadow.innerHTML = `
       <style>
         :host { all: initial; }
+        :host([hidden]) { display: none !important; }
         .panel {
           position: fixed;
           right: 16px;
@@ -257,6 +259,7 @@
       if (state.host) {
         state.host.hidden = true;
       }
+      state.panelSignature = "";
       return;
     }
 
@@ -265,8 +268,6 @@
       return;
     }
 
-    state.host.hidden = false;
-
     const list = /** @type {HTMLElement | null} */ (
       state.shadow.querySelector('[data-role="category-list"]')
     );
@@ -274,6 +275,16 @@
       return;
     }
 
+    const wasHidden = state.host.hidden;
+    state.host.hidden = false;
+    const signature = panelSignature();
+    if (!wasHidden && signature === state.panelSignature) {
+      return;
+    }
+    state.panelSignature = signature;
+
+    const active = state.shadow.activeElement;
+    const scrollTop = list.scrollTop;
     const fragment = document.createDocumentFragment();
     const parentKeys = new Set();
     for (const node of state.categoryNodes) {
@@ -347,6 +358,38 @@
     }
 
     list.replaceChildren(fragment);
+    list.scrollTop = scrollTop;
+    restorePanelFocus(active);
+  }
+
+  /** @returns {string} */
+  function panelSignature() {
+    const nodes = state.categoryNodes.map((node) => `${node.key}:${node.count}`).join("|");
+    const excluded = [...state.excluded].sort().join("|");
+    const expanded = [...state.expanded].sort().join("|");
+    return `${nodes}::${excluded}::${expanded}`;
+  }
+
+  /** @param {Element | null} active */
+  function restorePanelFocus(active) {
+    if (!(active instanceof HTMLElement) || !state.shadow) {
+      return;
+    }
+    const key = active.dataset.categoryKey;
+    if (!key) {
+      return;
+    }
+
+    const selector =
+      active.matches('[data-action="toggle-branch"]') && !active.matches("input")
+        ? '[data-action="toggle-branch"]'
+        : "input[data-category-key]";
+    for (const element of state.shadow.querySelectorAll(selector)) {
+      if (element instanceof HTMLElement && element.dataset.categoryKey === key) {
+        element.focus({ preventScroll: true });
+        return;
+      }
+    }
   }
 
   function applyExclusions() {
@@ -372,14 +415,20 @@
 
     const count = state.shadow.querySelector('[data-role="hidden-count"]');
     if (count) {
-      count.textContent = `${hiddenCount} hidden`;
+      const label = `${hiddenCount} hidden`;
+      if (count.textContent !== label) {
+        count.textContent = label;
+      }
     }
 
     const revealButton = /** @type {HTMLButtonElement | null} */ (
       state.shadow.querySelector('[data-action="reveal"]')
     );
     if (revealButton) {
-      revealButton.textContent = state.reveal ? "Hide again" : "Show hidden";
+      const label = state.reveal ? "Hide again" : "Show hidden";
+      if (revealButton.textContent !== label) {
+        revealButton.textContent = label;
+      }
       revealButton.disabled = hiddenCount === 0;
     }
   }
