@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Trade Me search fixture</title>
+    <style>
+      body { margin: 0; font-family: sans-serif; }
+      .result-cell { display: block; width: 50%; padding: 8px; box-sizing: border-box; }
+      .result-card { display: block; min-height: 80px; background: white; padding: 16px; }
+      .ad-card { display: block; min-height: 60px; padding: 16px; background: #ddd; }
+    </style>
+  </head>
+  <body>
+    <main class="tm-marketplace-search-results__container">
+      <tg-row id="results" class="tm-search-results__row">
+        <tg-col class="result-cell" data-listing="gaming-trading-card-1">
+          <tm-marketplace-search-card>
+            <a href="/a/marketplace/gaming/trading-cards/pokemon/listing/111">
+              <article class="result-card">Pokemon cards</article>
+            </a>
+          </tm-marketplace-search-card>
+        </tg-col>
+        <tg-col class="result-cell" data-listing="gaming-console-1">
+          <tm-marketplace-search-card>
+            <a href="/a/marketplace/gaming/consoles/listing/222">
+              <article class="result-card">Gaming console</article>
+            </a>
+          </tm-marketplace-search-card>
+        </tg-col>
+        <tg-col class="result-cell" data-listing="sports-trading-card-1">
+          <tm-marketplace-search-card>
+            <a href="/a/marketplace/sports/trading-cards/other/listing/333">
+              <article class="result-card">Sports trading card</article>
+            </a>
+          </tm-marketplace-search-card>
+        </tg-col>
+        <tg-col class="result-cell" data-listing="sports-cycling-1">
+          <tm-marketplace-search-card>
+            <a href="/a/marketplace/sports/cycling/bike-accessories/listing/334">
+              <article class="result-card">Bike rack</article>
+            </a>
+          </tm-marketplace-search-card>
+        </tg-col>
+        <tg-col class="result-cell" data-listing="books-1">
+          <tm-marketplace-search-card>
+            <a href="/a/marketplace/books/fiction/listing/555">
+              <article class="result-card">Fiction book</article>
+            </a>
+          </tm-marketplace-search-card>
+        </tg-col>
+        <tg-col class="result-cell" data-listing="motors-1">
+          <tm-motors-basic-search-card>
+            <a href="/a/motors/cars/mazda/cx-5/listing/666">
+              <article class="result-card">Mazda CX-5</article>
+            </a>
+          </tm-motors-basic-search-card>
+        </tg-col>
+        <tg-col class="result-cell" data-listing="jewellery-mens-1">
+          <tm-marketplace-search-card>
+            <a href="/a/marketplace/jewellery-watches/mens-jewellery/bracelets/listing/999">
+              <article class="result-card">Men's bracelet</article>
+            </a>
+          </tm-marketplace-search-card>
+        </tg-col>
+        <tg-col class="result-cell" data-listing="sponsored-gaming">
+          <tm-marketplace-search-card class="sponsored-listing">
+            <a href="/a/marketplace/gaming/trading-cards/other/listing/777">
+              <article class="result-card">Sponsored gaming offer</article>
+            </a>
+          </tm-marketplace-search-card>
+        </tg-col>
+      </tg-row>
+      <div class="ad-card" data-ad="display">Advertisement</div>
+    </main>
+  </body>
+</html>
+
