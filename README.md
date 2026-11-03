@@ -8,7 +8,7 @@ Not affiliated with Trade Me. Provided as-is, with no warranty.
 
 This extension is not on the Chrome Web Store. Install it from source:
 
-1. Download the repository as a ZIP, or clone it with Git.
+1. Download the latest release ZIP from https://github.com/olitreadwell/trademe-category-filter/releases/latest, or clone the repository.
 2. Unzip the download if needed.
 3. Open `chrome://extensions`.
 4. Turn on Developer mode.
